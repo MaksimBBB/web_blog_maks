@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        :root {
+            --bg: #f4f6f8;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --danger: #dc2626;
+            --danger-hover: #b91c1c;
+        }
+
+        body {
+            margin: 0;
+            padding: 32px 16px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .head-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 12px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .article-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+
+        .article-title {
+            margin: 0 0 6px;
+            font-size: 21px;
+        }
+
+        .article-date {
+            margin: 0 0 12px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .article-content {
+            margin: 0 0 16px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color .15s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-hover);
+        }
+
+        .empty {
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+<main class="page">
+    <div class="head-container">
+        <h1>Dashboard</h1>
+        <button class="btn-primary" onclick="window.location.href='/articles/new'">+ Add Article</button>
+    </div>
+
+    {{range .}}
+    <div class="article-container">
+        <h2 class="article-title">{{.Title}}</h2>
+        <p class="article-date">Published: {{.Published}}</p>
+        <p class="article-content">{{.Content}}</p>
+        <div class="actions">
+            <button class="btn-primary" onclick="window.location.href='/articles/update/{{.ID}}'">Edit</button>
+            <form action="/articles/delete/{{.ID}}" method="POST" style="display:inline;" onsubmit="return confirm('Delete this article?');">
+                <button class="btn-danger" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+    {{else}}
+    <div class="empty">No articles yet. Create your first post.</div>
+    {{end}}
+</main>
+</body>
+</html>

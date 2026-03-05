@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles</title>
+    <style>
+        :root {
+            --bg: #f4f6f8;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+        }
+
+        body {
+            margin: 0;
+            padding: 32px 16px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0 0 20px;
+            font-size: 28px;
+        }
+
+        .article {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+
+        .article h2 {
+            margin: 0 0 6px;
+            font-size: 21px;
+        }
+
+        .article a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .article a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+        .meta {
+            margin: 0 0 12px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .content {
+            margin: 0;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .empty {
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+<main class="page">
+    <h1>Articles</h1>
+    {{range .}}
+    <article class="article">
+        <h2><a href="/article/{{.ID}}">{{.Title}}</a></h2>
+        <p class="meta">Published: {{.Published}}</p>
+        <p class="content">{{.Content}}</p>
+    </article>
+    {{else}}
+    <div class="empty">No articles found.</div>
+    {{end}}
+</main>
+</body>
+</html>
