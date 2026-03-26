@@ -29,6 +29,10 @@ web_blog_go/
 │  ├─ dashboard.html
 │  ├─ newArticle.html
 │  └─ updateArticle.html
+├─ .dockerignore
+├─ .env.example
+├─ Dockerfile
+├─ docker-compose.yml
 ├─ main.go
 ├─ user.go
 ├─ user_test.go
@@ -75,26 +79,62 @@ docker compose up --build
 
 `http://localhost:8080`
 
+## Docker Команди
+
+Запуск застосунку:
+
+```bash
+docker compose up --build
+```
+Зупинка контейнерів:
+
+```bash
+docker compose down
+```
+
+Перезапуск із перевідтворенням контейнера:
+
+```bash
+docker compose up --build --force-recreate
+```
+
+Видалення контейнерів разом із volume:
+
+```bash
+docker compose down -v
+```
+
 ## Маршрути
 
 ### Гостьова частина
 
-- `GET /` - список статей
-- `GET /articles` - список статей
-- `GET /article/{id}` - сторінка статті
+- `GET /` - головна сторінка зі списком статей.
+- `GET /articles` - список статей.
+- `GET /article/{id}` - перегляд окремої статті.
+- `GET /login` - сторінка входу.
+- `POST /login` - авторизація адміністратора.
+- `GET /logout` - вихід із системи.
+- `GET /dashboard` - адмін-панель.
+- `GET /articles/new` - форма створення статті.
+- `POST /articles/new` - створення статті.
+- `GET /articles/update/{id}` - форма редагування.
+- `POST /articles/update/{id}` - оновлення статті.
+- `POST /articles/delete/{id}` - видалення статті.
 
-### Аутентифікація
+## Troubleshooting
 
-- `GET /login` - форма логіну
-- `POST /login` - вхід в адмінку, встановлення `auth_token`
-- `GET /logout` - вихід (редірект на головну)
+### `.env file not found`
+Якщо застосунок запущений у Docker, це може бути нормально: змінні середовища передаються через `docker compose`, а не обов'язково через фізичний `.env` усередині контейнера.
 
-### Адмін (захищено)
+### `port is already allocated`
+Означає, що порт `8080` уже зайнятий іншим процесом або контейнером. Зупиніть конфліктний процес або змініть зовнішній порт у [docker-compose.yml]
 
-- `GET /dashboard` - список статей з діями
-- `GET /articles/new` - форма створення
-- `POST /articles/new` - створення статті
-- `GET /articles/update/{id}` - форма редагування
-- `POST /articles/update/{id}` - оновлення статті
-- `POST /articles/delete/{id}` - видалення статті
+### Статті не відображаються в контейнері
+Якщо volume був створений раніше порожнім, потрібно перестворити його:
+```bash
+docker compose down -v
+docker compose up --build
+```
 
+### Docker не запускається або не видно контейнер
+Переконайтеся, що Docker Desktop запущений і має доступ до Linux середовища.
