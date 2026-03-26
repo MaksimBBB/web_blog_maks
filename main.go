@@ -11,10 +11,7 @@ import (
 )
 
 func init() {
-	err := gotenv.Load()
-	if err != nil {
-		fmt.Println("Warning: .env file not found")
-	}
+	_ = gotenv.Load()
 	if _, err := os.Stat("articles"); os.IsNotExist(err) {
 		os.Mkdir("articles", 0755)
 	}
