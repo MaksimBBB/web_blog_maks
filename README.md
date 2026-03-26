@@ -8,6 +8,7 @@
 - Валідація полів статті (`title`, `content`, `date`).
 - Аутентифікація через JWT + cookie (`auth_token`).
 - Захист адмін-маршрутів middleware-ом.
+- Контейнеризація через Docker і `docker compose`.
 
 ## Структура проєкту
 
@@ -34,9 +35,9 @@ web_blog_go/
 └─ .env
 ```
 
-## Налаштування `.env`
+## Налаштування .env
 
-Створіть файл `.env` у корені проєкту:
+Створіть файл `.env` у корені проєкту на основі `.env.example`:
 
 ```env
 ADMIN_USERNAME=(your admin username)
@@ -53,6 +54,24 @@ go mod tidy
 go run main.go
 ```
 Сервер буде доступний на:
+
+`http://localhost:8080`
+
+## Запуск через Docker
+
+Проєкт містить:
+
+- `Dockerfile` з multi-stage build.
+- `docker-compose.yml` для запуску сервісу блогу.
+- Named volume для збереження статей між перезапусками.
+
+### Команди запуску
+
+```
+docker compose up --build
+```
+
+Після запуску застосунок буде доступний за адресою:
 
 `http://localhost:8080`
 
